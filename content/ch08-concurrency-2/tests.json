@@ -1,0 +1,9 @@
+{
+  "funcName": "ContextDone",
+  "cases": [
+    { "name": "background_not_cancelled", "argsGo": "context.Background()", "expectedGo": "false", "hidden": false },
+    { "name": "explicitly_cancelled", "argsGo": "func() context.Context { c, cancel := context.WithCancel(context.Background()); cancel(); return c }()", "expectedGo": "true", "hidden": false },
+    { "name": "child_of_uncancelled_parent", "argsGo": "func() context.Context { c, cancel := context.WithCancel(context.Background()); _ = cancel; return c }()", "expectedGo": "false", "hidden": true },
+    { "name": "child_of_cancelled_parent", "argsGo": "func() context.Context { parent, pcancel := context.WithCancel(context.Background()); pcancel(); child, _ := context.WithCancel(parent); return child }()", "expectedGo": "true", "hidden": true }
+  ]
+}

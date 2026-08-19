@@ -1,0 +1,8 @@
+/site/node_modules/
+/site/dist/
+/site/public/
+
+.DS_Store
+*.swp
+.vscode/
+.idea/

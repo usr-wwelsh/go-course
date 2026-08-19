@@ -1,0 +1,9 @@
+{
+  "funcName": "SortViaBST",
+  "cases": [
+    { "name": "unsorted_ints", "argsGo": "[]int{5, 3, 8, 1, 4}", "expectedGo": "[]int{1, 3, 4, 5, 8}", "hidden": false },
+    { "name": "with_duplicates", "argsGo": "[]int{2, 2, 1}", "expectedGo": "[]int{1, 2, 2}", "hidden": false },
+    { "name": "empty", "argsGo": "[]int{}", "expectedGo": "[]int{}", "hidden": true },
+    { "name": "already_sorted", "argsGo": "[]int{1, 2, 3}", "expectedGo": "[]int{1, 2, 3}", "hidden": true }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "funcName": "Divide",
+  "cases": [
+    { "name": "exact_division", "argsGo": "10, 2", "expectedGo": "\"5\"", "hidden": false },
+    { "name": "division_by_zero", "argsGo": "4, 0", "expectedGo": "\"division by zero\"", "hidden": false },
+    { "name": "integer_truncation", "argsGo": "7, 2", "expectedGo": "\"3\"", "hidden": true },
+    { "name": "negative_dividend", "argsGo": "-9, 3", "expectedGo": "\"-3\"", "hidden": true }
+  ]
+}

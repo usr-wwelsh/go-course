@@ -1,0 +1,29 @@
+{
+  "funcName": "RunLRU",
+  "cases": [
+    {
+      "name": "leetcode_example",
+      "argsGo": "2, []string{\"put\", \"put\", \"get\", \"put\", \"get\", \"put\", \"get\", \"get\", \"get\"}, []int{1, 2, 1, 3, 2, 4, 1, 3, 4}, []int{1, 2, 0, 3, 0, 4, 0, 0, 0}",
+      "expectedGo": "[]int{1, -1, -1, 3, 4}",
+      "hidden": false
+    },
+    {
+      "name": "capacity_one_evicts_immediately",
+      "argsGo": "1, []string{\"put\", \"get\", \"put\", \"get\", \"get\"}, []int{1, 1, 2, 1, 2}, []int{10, 0, 20, 0, 0}",
+      "expectedGo": "[]int{10, -1, 20}",
+      "hidden": false
+    },
+    {
+      "name": "put_on_existing_key_updates_and_refreshes",
+      "argsGo": "2, []string{\"put\", \"put\", \"put\", \"get\", \"get\"}, []int{1, 2, 1, 2, 1}, []int{1, 2, 100, 0, 0}",
+      "expectedGo": "[]int{2, 100}",
+      "hidden": true
+    },
+    {
+      "name": "get_on_missing_key",
+      "argsGo": "2, []string{\"get\", \"put\", \"get\"}, []int{5, 5, 5}, []int{0, 7, 0}",
+      "expectedGo": "[]int{-1, 7}",
+      "hidden": true
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "funcName": "MostFrequent",
+  "cases": [
+    { "name": "clear_winner", "argsGo": "[]string{\"go\", \"is\", \"fun\", \"go\", \"is\", \"go\"}", "expectedGo": "\"go\"", "hidden": false },
+    { "name": "single_element", "argsGo": "[]string{\"only\"}", "expectedGo": "\"only\"", "hidden": false },
+    { "name": "tie_breaks_to_first_occurrence", "argsGo": "[]string{\"b\", \"a\", \"a\", \"b\"}", "expectedGo": "\"b\"", "hidden": true },
+    { "name": "all_distinct_returns_first", "argsGo": "[]string{\"x\", \"y\", \"z\"}", "expectedGo": "\"x\"", "hidden": true }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "funcName": "TotalArea",
+  "cases": [
+    { "name": "single_square", "argsGo": "[]Shape{Square{Side: 3}}", "expectedGo": "9.0", "hidden": false },
+    { "name": "multiple_squares", "argsGo": "[]Shape{Square{Side: 2}, Square{Side: 3}}", "expectedGo": "13.0", "hidden": false },
+    { "name": "empty_slice", "argsGo": "[]Shape{}", "expectedGo": "0.0", "hidden": true },
+    { "name": "zero_side", "argsGo": "[]Shape{Square{Side: 0}, Square{Side: 4}}", "expectedGo": "16.0", "hidden": true }
+  ]
+}

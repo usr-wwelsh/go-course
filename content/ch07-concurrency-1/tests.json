@@ -1,0 +1,9 @@
+{
+  "funcName": "SumConcurrent",
+  "cases": [
+    { "name": "several_positives", "argsGo": "[]int{1, 2, 3, 4, 5}", "expectedGo": "15", "hidden": false },
+    { "name": "mixed_signs", "argsGo": "[]int{-4, 10, -1}", "expectedGo": "5", "hidden": false },
+    { "name": "empty", "argsGo": "[]int{}", "expectedGo": "0", "hidden": true },
+    { "name": "single_element", "argsGo": "[]int{42}", "expectedGo": "42", "hidden": true }
+  ]
+}

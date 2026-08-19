@@ -1,0 +1,9 @@
+{
+  "funcName": "Reversed",
+  "cases": [
+    { "name": "ints", "argsGo": "[]int{1, 2, 3}", "expectedGo": "[]int{3, 2, 1}", "hidden": false },
+    { "name": "strings", "argsGo": "[]string{\"a\", \"b\", \"c\"}", "expectedGo": "[]string{\"c\", \"b\", \"a\"}", "hidden": false },
+    { "name": "duplicates", "argsGo": "[]int{1, 1, 2}", "expectedGo": "[]int{2, 1, 1}", "hidden": true },
+    { "name": "single_element", "argsGo": "[]int{42}", "expectedGo": "[]int{42}", "hidden": true }
+  ]
+}

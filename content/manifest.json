@@ -1,0 +1,12 @@
+[
+  { "slug": "ch01-fundamentals", "title": "Go Fundamentals" },
+  { "slug": "ch02-functions-errors", "title": "Functions & Error Handling" },
+  { "slug": "ch03-slices-maps", "title": "Slices, Arrays & Maps" },
+  { "slug": "ch04-structs-methods", "title": "Structs, Methods & Composition" },
+  { "slug": "ch05-interfaces", "title": "Interfaces & Polymorphism" },
+  { "slug": "ch06-generics", "title": "Generics" },
+  { "slug": "ch07-concurrency-1", "title": "Concurrency I: Goroutines & Channels" },
+  { "slug": "ch08-concurrency-2", "title": "Concurrency II: Synchronization & Context" },
+  { "slug": "ch09-data-structures-algorithms", "title": "Data Structures & Algorithms in Go" },
+  { "slug": "ch10-testing-capstone", "title": "Testing, Tooling & Capstone" }
+]

@@ -1,0 +1,9 @@
+{
+  "funcName": "FizzBuzz",
+  "cases": [
+    { "name": "divisible_by_three", "argsGo": "3", "expectedGo": "\"Fizz\"", "hidden": false },
+    { "name": "divisible_by_five", "argsGo": "5", "expectedGo": "\"Buzz\"", "hidden": false },
+    { "name": "divisible_by_both", "argsGo": "15", "expectedGo": "\"FizzBuzz\"", "hidden": true },
+    { "name": "neither", "argsGo": "7", "expectedGo": "\"7\"", "hidden": true }
+  ]
+}
