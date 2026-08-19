@@ -11,6 +11,7 @@ function stage() {
   cpSync("index.html", `${outdir}/index.html`);
   cpSync("src/styles.css", `${outdir}/styles.css`);
   cpSync("public", outdir, { recursive: true });
+  cpSync("static", outdir, { recursive: true });
   cpSync("../content", `${outdir}/content`, { recursive: true });
 }
 

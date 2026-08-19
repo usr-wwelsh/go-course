@@ -33,3 +33,5 @@ go test ./wasm/...
 ## License
 
 MIT — see [LICENSE](LICENSE).
+
+The Go gopher used for the site favicon and social preview image was designed by [Renee French](https://reneefrench.blogspot.com/) and is licensed under [Creative Commons Attribution 3.0](https://creativecommons.org/licenses/by/3.0/).
