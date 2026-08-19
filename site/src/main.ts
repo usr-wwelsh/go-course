@@ -67,7 +67,7 @@ function beginWarmUp() {
 }
 
 async function loadManifest(): Promise<ChapterMeta[]> {
-  const res = await fetch("/content/manifest.json");
+  const res = await fetch("content/manifest.json");
   return res.json();
 }
 
@@ -149,18 +149,18 @@ async function loadChapter(slug: string) {
   runStatus.textContent = "";
 
   if (slug === "index") {
-    const md = await fetchOptional("/content/index.md");
+    const md = await fetchOptional("content/index.md");
     lessonEl.innerHTML = md ? renderMarkdown(md) : "<p>Not found.</p>";
     hideExercise();
     return;
   }
 
-  const lessonMd = await fetchOptional(`/content/${slug}/lesson.md`);
+  const lessonMd = await fetchOptional(`content/${slug}/lesson.md`);
   lessonEl.innerHTML = lessonMd ? renderMarkdown(lessonMd) : "<p>Chapter not found.</p>";
 
   const [starter, testsJson] = await Promise.all([
-    fetchOptional(`/content/${slug}/starter.go`),
-    fetchOptional(`/content/${slug}/tests.json`),
+    fetchOptional(`content/${slug}/starter.go`),
+    fetchOptional(`content/${slug}/tests.json`),
   ]);
 
   if (starter && testsJson) {

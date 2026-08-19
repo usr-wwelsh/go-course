@@ -18,16 +18,16 @@ declare global {
 
 async function instantiate(go: Go): Promise<WebAssembly.WebAssemblyInstantiatedSource> {
   try {
-    return await WebAssembly.instantiateStreaming(fetch("/runner.wasm"), go.importObject);
+    return await WebAssembly.instantiateStreaming(fetch("runner.wasm"), go.importObject);
   } catch {
-    const bytes = await (await fetch("/runner.wasm")).arrayBuffer();
+    const bytes = await (await fetch("runner.wasm")).arrayBuffer();
     return WebAssembly.instantiate(bytes, go.importObject);
   }
 }
 
 function boot(): Promise<void> {
   return new Promise<void>((resolve, reject) => {
-    importScripts("/wasm_exec.js");
+    importScripts("wasm_exec.js");
     self.__onWasmReady = resolve;
     const go = new Go();
     instantiate(go)
