@@ -64,6 +64,14 @@ a { color: inherit; }
     gap: 48px;
     align-items: start;
   }
+
+  .layout.solo {
+    display: block;
+  }
+}
+
+.layout.solo .toc {
+  display: none;
 }
 
 .toc {

@@ -3,7 +3,7 @@ import { createEditor } from "./editor";
 import { runCode, warmUp, type RunResponse } from "./runner";
 import { renderMarkdown } from "./markdown";
 import { loadSavedCode, saveCode, clearSavedCode, markComplete, isComplete } from "./storage";
-import { mountCertificate } from "./certificate";
+import { mountCertificate, mountCertificateView } from "./certificate";
 
 interface ChapterMeta {
   slug: string;
@@ -27,6 +27,7 @@ const pasteModal = document.getElementById("paste-modal") as HTMLElement;
 const pasteModalDismiss = document.getElementById("paste-modal-dismiss") as HTMLButtonElement;
 const certificateSection = document.getElementById("certificate-section") as HTMLElement;
 const certificateEl = document.getElementById("certificate") as HTMLElement;
+const layoutEl = document.querySelector<HTMLElement>(".layout")!;
 
 let editorView: EditorView | null = null;
 let currentSlug = "";
@@ -258,7 +259,29 @@ async function route() {
   await loadChapter(slug);
 }
 
+async function routeCertificateView(token: string) {
+  tocEl.replaceChildren();
+  layoutEl.classList.add("solo");
+  hideExercise();
+  lessonEl.replaceChildren();
+  certificateSection.hidden = false;
+  const data = await mountCertificateView(certificateEl, token);
+
+  const p = document.createElement("p");
+  if (data) {
+    p.textContent = `${data.n.trim() || "This learner"} has completed the Go, by Doing course, ten chapters of Go fundamentals.`;
+  } else {
+    p.textContent = "This link doesn't decode to a valid certificate.";
+  }
+  lessonEl.append(p);
+}
+
 (async () => {
+  const verifyToken = new URLSearchParams(location.search).get("v");
+  if (verifyToken) {
+    await routeCertificateView(verifyToken);
+    return;
+  }
   beginWarmUp();
   chapters = await loadManifest();
   window.addEventListener("hashchange", () => route());

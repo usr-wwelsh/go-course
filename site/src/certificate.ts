@@ -11,6 +11,39 @@ const RULE = "#cbcbc2";
 const PAPER = "#fbfbf8";
 const ACCENT = "#3f6b4e";
 
+// Certificate URLs carry the cert data itself, base64url-encoded — there's no
+// backend to look it up against. This is encoding, not encryption: the
+// "key" would have to ship in this same JS bundle, so it can't keep the
+// contents secret or stop someone from handcrafting a token. It's enough to
+// give each learner a stable, shareable link to their own certificate.
+export interface CertToken {
+  n: string;
+  d: string;
+  i: string;
+}
+
+function encodeCertToken(name: string, date: string, id: string): string {
+  const json = JSON.stringify({ n: name, d: date, i: id });
+  const bytes = new TextEncoder().encode(json);
+  let bin = "";
+  for (const b of bytes) bin += String.fromCharCode(b);
+  return btoa(bin).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+
+function decodeCertToken(token: string): CertToken | null {
+  try {
+    const bin = atob(token.replace(/-/g, "+").replace(/_/g, "/"));
+    const bytes = Uint8Array.from(bin, (c) => c.charCodeAt(0));
+    const parsed = JSON.parse(new TextDecoder().decode(bytes));
+    if (typeof parsed.n === "string" && typeof parsed.d === "string" && typeof parsed.i === "string") {
+      return parsed;
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
 function escapeXml(s: string): string {
   return s
     .replace(/&/g, "&amp;")
@@ -38,6 +71,8 @@ async function rasterizeMark(url: string, size: number): Promise<string> {
 
 function buildCertSvg(name: string, date: string, id: string, wUri: string, gopherUri: string): string {
   const displayName = escapeXml(name.trim() || "Your Name");
+  const displayDate = escapeXml(date);
+  const displayId = escapeXml(id);
   const serif = "Georgia, 'Times New Roman', serif";
   const mono = "ui-monospace, 'SF Mono', Menlo, monospace";
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${HEIGHT}" viewBox="0 0 ${WIDTH} ${HEIGHT}">
@@ -58,7 +93,7 @@ function buildCertSvg(name: string, date: string, id: string, wUri: string, goph
 <line x1="280" y1="316" x2="620" y2="316" stroke="${RULE}" stroke-width="1"/>
 <text x="450" y="352" text-anchor="middle" font-family="${serif}" font-size="15" fill="${MUTED}">has completed all ten chapters of the course</text>
 <text x="450" y="374" text-anchor="middle" font-family="${serif}" font-style="italic" font-size="12" fill="${FAINT}">Read a little. Wrote a little. Every test passed.</text>
-<text x="450" y="414" text-anchor="middle" font-family="${serif}" font-size="12" fill="${FAINT}">Issued ${date}</text>
+<text x="450" y="414" text-anchor="middle" font-family="${serif}" font-size="12" fill="${FAINT}">Issued ${displayDate}</text>
 
 <circle cx="90" cy="524" r="36" fill="${PAPER}" stroke="${ACCENT}" stroke-width="2"/>
 <circle cx="90" cy="524" r="30" fill="none" stroke="${RULE}" stroke-width="1"/>
@@ -68,7 +103,7 @@ function buildCertSvg(name: string, date: string, id: string, wUri: string, goph
 <circle cx="810" cy="524" r="30" fill="none" stroke="${RULE}" stroke-width="1"/>
 <image href="${gopherUri}" x="784" y="498" width="52" height="52"/>
 
-<text x="450" y="578" text-anchor="middle" font-family="${mono}" font-size="11" letter-spacing="0.5" fill="${FAINT}">CERTIFICATE ID  ${id}</text>
+<text x="450" y="578" text-anchor="middle" font-family="${mono}" font-size="11" letter-spacing="0.5" fill="${FAINT}">CERTIFICATE ID  ${displayId}</text>
 </svg>`;
 }
 
@@ -114,7 +149,7 @@ function linkedInUrl(name: string, date: string, id: string): string {
     issueMonth: String(issued.getUTCMonth() + 1),
     expirationYear: String(expires.getUTCFullYear()),
     expirationMonth: String(expires.getUTCMonth() + 1),
-    certUrl: SITE_URL,
+    certUrl: `${SITE_URL}?v=${encodeCertToken(name, date, id)}`,
     certId: id,
   });
   return `https://www.linkedin.com/profile/add?${params}`;
@@ -182,4 +217,23 @@ export function mountCertificate(container: HTMLElement, allComplete: boolean): 
   linkedinLink.addEventListener("click", (e) => {
     if (linkedinLink.getAttribute("aria-disabled") === "true") e.preventDefault();
   });
+}
+
+export async function mountCertificateView(container: HTMLElement, token: string): Promise<CertToken | null> {
+  const data = decodeCertToken(token);
+  if (!data) {
+    container.innerHTML = `<p>This certificate link looks broken — check that you copied the whole URL.</p>`;
+    return null;
+  }
+
+  const [wUri, gopherUri] = await Promise.all([
+    rasterizeMark("wW-mark.svg", 160),
+    rasterizeMark("gopher-mark.svg", 160),
+  ]);
+
+  container.innerHTML = `
+    <div class="cert-preview">${buildCertSvg(data.n, data.d, data.i, wUri, gopherUri)}</div>
+    <p class="cert-note"><a href="${SITE_URL}">Take Go, by Doing →</a></p>
+  `;
+  return data;
 }
