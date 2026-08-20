@@ -322,3 +322,96 @@ a { color: inherit; }
 }
 
 #paste-modal-dismiss:hover { opacity: 0.85; }
+
+/* ---- certificate ---- */
+
+.toc-certificate {
+  display: block;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink);
+  padding: 12px 0 4px;
+  margin-top: 14px;
+  border-top: 1px solid var(--rule);
+}
+
+.toc-certificate:hover { opacity: 0.75; }
+
+#certificate-section { margin-top: 48px; }
+
+.cert-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-width: 22rem;
+  margin-bottom: 24px;
+}
+
+.cert-controls label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.cert-controls input {
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--rule-strong);
+  border-radius: 4px;
+  padding: 8px 10px;
+}
+
+.cert-controls input:focus { outline: 1.5px solid var(--ink); outline-offset: 1px; }
+
+.cert-preview {
+  max-width: 42rem;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.cert-preview svg { display: block; width: 100%; height: auto; }
+
+.cert-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+#cert-download {
+  font-family: var(--serif);
+  font-size: 0.9rem;
+  color: var(--paper);
+  background: var(--ink);
+  border: 1px solid var(--ink);
+  border-radius: 4px;
+  padding: 8px 20px;
+  cursor: pointer;
+}
+
+#cert-download:hover { opacity: 0.85; }
+#cert-download:disabled { opacity: 0.4; cursor: default; }
+
+.cert-linkedin {
+  font-family: var(--serif);
+  font-size: 0.9rem;
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--rule-strong);
+}
+
+.cert-linkedin:hover { text-decoration-color: var(--ink); }
+.cert-linkedin[aria-disabled="true"] { color: var(--faint); pointer-events: none; text-decoration: none; }
+
+.cert-note {
+  max-width: 34rem;
+  font-size: 0.82rem;
+  color: var(--faint);
+  margin-top: 18px;
+}

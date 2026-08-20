@@ -3,6 +3,7 @@ import { createEditor } from "./editor";
 import { runCode, warmUp, type RunResponse } from "./runner";
 import { renderMarkdown } from "./markdown";
 import { loadSavedCode, saveCode, clearSavedCode, markComplete, isComplete } from "./storage";
+import { mountCertificate } from "./certificate";
 
 interface ChapterMeta {
   slug: string;
@@ -24,6 +25,8 @@ const runStatus = document.getElementById("run-status")!;
 const resultsEl = document.getElementById("results")!;
 const pasteModal = document.getElementById("paste-modal") as HTMLElement;
 const pasteModalDismiss = document.getElementById("paste-modal-dismiss") as HTMLButtonElement;
+const certificateSection = document.getElementById("certificate-section") as HTMLElement;
+const certificateEl = document.getElementById("certificate") as HTMLElement;
 
 let editorView: EditorView | null = null;
 let currentSlug = "";
@@ -76,6 +79,10 @@ async function fetchOptional(path: string): Promise<string | null> {
   return res.ok ? res.text() : null;
 }
 
+function allChaptersComplete(): boolean {
+  return chapters.length > 0 && chapters.every((ch) => isComplete(ch.slug));
+}
+
 function renderToc(activeSlug: string) {
   const frag = document.createDocumentFragment();
 
@@ -110,6 +117,16 @@ function renderToc(activeSlug: string) {
     ol.appendChild(li);
   }
   frag.appendChild(ol);
+
+  if (allChaptersComplete()) {
+    const cert = document.createElement("a");
+    cert.className = "toc-certificate";
+    cert.href = "#certificate";
+    cert.textContent = "🎓 Get your certificate";
+    if (activeSlug === "certificate") cert.setAttribute("aria-current", "true");
+    frag.appendChild(cert);
+  }
+
   tocEl.replaceChildren(frag);
 }
 
@@ -147,11 +164,20 @@ async function loadChapter(slug: string) {
   renderToc(slug);
   resultsEl.replaceChildren();
   runStatus.textContent = "";
+  certificateSection.hidden = true;
 
   if (slug === "index") {
     const md = await fetchOptional("content/index.md");
     lessonEl.innerHTML = md ? renderMarkdown(md) : "<p>Not found.</p>";
     hideExercise();
+    return;
+  }
+
+  if (slug === "certificate") {
+    hideExercise();
+    lessonEl.innerHTML = `<h1>Your certificate</h1><p>You've completed every chapter of Go, by Doing. Enter your name, download it, or add it straight to LinkedIn.</p>`;
+    certificateSection.hidden = false;
+    mountCertificate(certificateEl, allChaptersComplete());
     return;
   }
 
